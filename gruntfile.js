@@ -38,11 +38,6 @@ module.exports = function (grunt) {
 
       dist: {
 
-        options: {
-
-          style:'compressed'
-        },
-
         files: {
 
           'dist/css/main.min.css' : 'src/scss/main.scss'
@@ -50,11 +45,6 @@ module.exports = function (grunt) {
       },
 
       dev: {
-
-        options: {
-
-          style:'expanded'
-        },
 
         files: {
 
@@ -147,13 +137,13 @@ module.exports = function (grunt) {
     }
   });
 
+  grunt.loadNpmTasks('grunt-sass');
+  grunt.loadNpmTasks('grunt-postcss');
+  grunt.loadNpmTasks('grunt-usemin');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-sass');
-  grunt.loadNpmTasks('grunt-postcss');
   grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-usemin');
   grunt.loadNpmTasks('grunt-contrib-watch');
 
-  grunt.registerTask('dist', ['clean', 'useminPrepare', 'uglify:dist', 'sass:dist', 'postcss', 'copy', 'usemin']);
+  grunt.registerTask('dist', ['clean', 'useminPrepare', 'uglify', 'sass:dist', 'postcss:dist', 'copy', 'usemin']);
 };
