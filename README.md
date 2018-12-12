@@ -43,14 +43,24 @@ request.send('adaj-abatasav-axaiacbg-ag');
 ### Datenauswertung
 Die Anwendung enthält ein Webanwendung, um die gespeicherten Benutzeraufstellungen auszuwerten. Die Anwendung befindet sich im Ordner `analysis/`. Das Tool verwendet eine Kopie der aktuellen Spielerdaten `players.json`. Damit die Auswertung klappt, muss diese Datei aktuell sein. Fernen benötigt die Anwendung diverse JavaScript-Bibliotheken, welche über NPM installiert werden müssen. 
 
+Die Bibliothek zur Anbindung von Google Spreadsheets ist mittlerweile veraltet und beinhaltet mehrere – vermutlich unkritische – Sicherheitslücken. Daher muss sie manuell installiert werden:
+
+```
+$ npm i miso.dataset
+```
+
 ### Entwickeln
-Zum Entwickeln und Bauen des Projekts wird [Node.js](https://nodejs.org/en/) und [Ruby](https://www.ruby-lang.org/) benötigt. Um die [Sass](http://sass-lang.com/)-Stylesheets zu kompilieren, braucht man Ruby-Sass und Grunt:
-
-1. Gebenenfalls Grunt-CLI installieren `npm install -g grunt-cli`
-2. Gegebenenfalls SASS installieren `sudo gem install sass`
-3. SASS-Compiler starten `grunt watch` oder `sass --watch src/scss:src/css`
-
 Zum lokalen Entwickeln ist ein kleiner [HTTP-Server](https://github.com/indexzero/http-server) integriert. Diesen kann man mit dem Befehl `npm start` starten. Der Server läuft unter http://localhost:8080. Beim Starten des Entwicklungsservers sollte automatisch ein neues Browserfenster aufgehen.
+
+Um die Sass-Styles bei jeder Änderungen neu zu kompilieren, kann man den Sass-Watcher laufen lassen `npm run-script watch` oder `grunt watch`. Als Compiler kommt [LibSass](http://sass-lang.com/libSass) zum Einsatz, welches deutlich schneller ist als der alte Ruby-Sass-Compiler. 
+
+Mithilfe des Taskrunners Grunt kann eine optimierte Version der Seite gebaut werden. Dabei wird:
+- JavaScript wird minifiziert und in eine Datei zusammengefasst (uglify)
+- Stylesheet werden geprefixt, minifiziert und zusammengefasst (PostCSS)
+- HTML-Script und Style-Tags werden angepasst (Usemin)
+- Bilder und Daten werden kopiert (copy)
+
+Der Grunt Build-Tasks kann mit `npm run build` ausgeführt werden. Die optimierte Version des Webseite liegt nach Ausführen des Grunt Tasks unter `dist`.
 
 ### Lizenz
 Der Quellcode diese Projekts wurde unter einer MIT-Lizenz veröffentlicht. Nicht in der Lizenz enthalten sind die Spielerbilder und Vereinslogos im Ordner `images/`. Alle Spielerbilder und Vereinslogos sind urheberrechtlich geschützt und dürfen nicht weiterverwendet werden.
