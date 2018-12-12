@@ -16,7 +16,7 @@
     getSpreadsheet(analyseData);
 
     // Get test data
-    //getJson('data/testdata.json', analyseData);
+    //getJSON('data/testdata.json', analyseData);
   }
 
   function analyseData(data) {
@@ -27,7 +27,7 @@
     var rows = countRows(data);
     var lineups = countLineups(data);
 
-    getJson('data/players.json', render);
+    getJSON('data/players.json', render);
 
     function render(data) {
 
@@ -128,12 +128,28 @@
     });
   }
 
-  function getJson(path, callback) {
+  function getJSON(path, callback) {
 
-    microAjax(path, function (res) {
+    var httpRequest = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
 
-      callback(JSON.parse(res));
-    });
+    httpRequest.onreadystatechange = function () {
+
+      if (httpRequest.readyState === 4 || httpRequest.readyState === 0) {
+
+        if (httpRequest.status === 200) {
+
+          var data = JSON.parse(httpRequest.responseText);
+
+          if (callback) {
+
+            callback(data);
+          }
+        }
+      }
+    };
+
+    httpRequest.open('GET', path);
+    httpRequest.send();
   }
 
   function convertData(data) {
